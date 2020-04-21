@@ -1,9 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+int tries;
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
+void solveSudoku(int game[9][9]){
+	int i,j,guess;
+	for(i=0;i<9;i++){
+		for(j=0;j<9;j++){
+			if(game[i][j] == 0){
+				guess = 1;
+				while(guess <= 9){
+					tries++;
+					if(isValid(game,i,j,guess)){
+						game[i][j] = guess;
+						printSudoku(game);
+						solveSudoku(game);
+					}
+					guess++;
+					if(guess==9 && !isValid(game,i,j,guess)){
+						game[i][j] = 0;
+						return;
+					}
+				}
+			}
+		}
+	}
+}
+
 void printSudoku(int game[9][9]){
+	system("cls");
+	printf("Try %d\n\n",tries);
 	int i,j;
 	for(i=0;i<9;i++){
 		for(j=0;j<9;j++){
@@ -91,6 +117,7 @@ int isValid(int game[9][9],int i,int j,int value){
 }
 
 int main(void) {
+	tries = 0;
 	int game[9][9] = {
 						{4,6,7,9,2,1,3,5,8},
 						{8,9,5,4,7,3,2,6,1},
@@ -102,10 +129,28 @@ int main(void) {
 						{1,8,9,3,4,6,5,7,2},
 						{6,7,2,5,1,9,8,3,4}
 					};
-	printSudoku(game);
-	if(isValid(game,4,4,5) == 1) printf("Valido\n");
-	else printf("Invalido\n");
-	if(isValid(game,4,4,4) == 1) printf("Valido\n");
-	else printf("Invalido\n");
+					
+	int game2[9][9] = {{0,2,0,4,5,6,7,8,9},
+					   {4,5,7,0,8,0,2,3,6},
+					   {6,8,9,2,3,7,0,4,0},
+					   {0,0,5,3,6,2,9,7,4},
+					   {2,7,4,0,9,0,6,5,3},
+					   {3,9,6,5,7,4,8,0,0},
+					   {0,4,0,6,1,8,3,9,7},
+					   {7,6,1,0,4,0,5,2,8},
+					   {9,3,8,7,2,5,0,6,0}
+					   };
+	
+	int game3[9][9] = {{0,6,0,5,0,4,0,3,0},
+					   {1,0,0,0,9,0,0,0,8},
+					   {0,0,0,0,0,0,0,0,0},
+					   {9,0,0,0,5,0,0,0,6},
+					   {0,4,0,6,0,2,0,7,0},
+					   {7,0,0,0,4,0,0,0,5},
+					   {0,0,0,0,0,0,0,0,0},
+					   {4,0,0,0,8,0,0,0,1},
+					   {0,5,0,2,0,3,0,4,0}};
+	
+	solveSudoku(game3);
 	return 0;
 }
