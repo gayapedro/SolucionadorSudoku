@@ -1,31 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 int tries;
+clock_t t;
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
-void solveSudoku(int game[9][9]){
-	int i,j,guess;
-	for(i=0;i<9;i++){
-		for(j=0;j<9;j++){
-			if(game[i][j] == 0){
-				guess = 1;
-				while(guess <= 9){
-					tries++;
-					if(isValid(game,i,j,guess)){
-						game[i][j] = guess;
-						printSudoku(game);
-						solveSudoku(game);
-					}
-					guess++;
-					if(guess==9 && !isValid(game,i,j,guess)){
-						game[i][j] = 0;
-						return;
-					}
-				}
-			}
-		}
-	}
-}
 
 void printSudoku(int game[9][9]){
 	system("cls");
@@ -40,6 +18,56 @@ void printSudoku(int game[9][9]){
 			if(j==8) printf("\n");
 			if(i==2 && j==8) printf("\n");
 			if(i==5 && j==8) printf("\n");
+		}
+	}
+}
+
+int isSolved(int game[9][9]){
+	int i,j,sum;
+	for(i=0;i<9;i++){
+		sum = 0;
+		for(j=0;j<9;j++){
+			sum+=game[i][j];
+		}
+		if(sum != 45) return 0;
+	}
+	for(i=0;i<9;i++){
+		sum = 0;
+		for(j=0;j<9;j++){
+			sum+=game[j][i];
+		}
+		if(sum != 45) return 0;
+	}
+	return 1;
+}
+
+void solveSudoku(int game[9][9]){
+	int i,j,guess;
+	for(i=0;i<9;i++){
+		for(j=0;j<9;j++){
+			if(isSolved(game)){
+				printSudoku(game);
+				t = clock() - t;
+				double taken = ((double)t)/CLOCKS_PER_SEC;
+				printf("\n%f segundos\n",taken);
+				getch();
+			}
+			if(game[i][j] == 0){
+				guess = 1;
+				while(guess <= 9){
+					tries++;
+					if(isValid(game,i,j,guess)){
+						//printSudoku(game);
+						game[i][j] = guess;
+						solveSudoku(game);
+					}
+					if(guess==9 && !isValid(game,i,j,guess)){
+						game[i][j] = 0;
+						return;
+					}
+					guess++;
+				}
+			}
 		}
 	}
 }
@@ -117,40 +145,47 @@ int isValid(int game[9][9],int i,int j,int value){
 }
 
 int main(void) {
-	tries = 0;
-	int game[9][9] = {
-						{4,6,7,9,2,1,3,5,8},
-						{8,9,5,4,7,3,2,6,1},
-						{2,3,1,8,6,5,7,4,9},
-						{5,1,3,6,9,8,4,2,7},
-						{9,2,8,7,0,4,6,1,3},
-						{7,4,6,1,3,2,9,8,5},
-						{3,5,4,2,8,7,1,9,6},
-						{1,8,9,3,4,6,5,7,2},
-						{6,7,2,5,1,9,8,3,4}
-					};
-					
-	int game2[9][9] = {{0,2,0,4,5,6,7,8,9},
-					   {4,5,7,0,8,0,2,3,6},
-					   {6,8,9,2,3,7,0,4,0},
-					   {0,0,5,3,6,2,9,7,4},
-					   {2,7,4,0,9,0,6,5,3},
-					   {3,9,6,5,7,4,8,0,0},
-					   {0,4,0,6,1,8,3,9,7},
-					   {7,6,1,0,4,0,5,2,8},
-					   {9,3,8,7,2,5,0,6,0}
-					   };
-	
-	int game3[9][9] = {{0,6,0,5,0,4,0,3,0},
-					   {1,0,0,0,9,0,0,0,8},
-					   {0,0,0,0,0,0,0,0,0},
-					   {9,0,0,0,5,0,0,0,6},
-					   {0,4,0,6,0,2,0,7,0},
-					   {7,0,0,0,4,0,0,0,5},
-					   {0,0,0,0,0,0,0,0,0},
-					   {4,0,0,0,8,0,0,0,1},
-					   {0,5,0,2,0,3,0,4,0}};
-	
-	solveSudoku(game3);
+	char line[9];
+	int countline,i,a,b,game[9][9];
+	countline = 1;
+	/*
+	int game[9][9] = {{0,6,0,3,0,0,8,0,4},
+			{5,3,7,0,9,0,0,0,0},
+			{0,4,0,0,0,6,3,0,7},
+			{0,9,0,0,5,1,2,3,8},
+			{0,0,0,0,0,0,0,0,0},
+			{7,1,3,6,2,0,0,4,0},
+			{3,0,6,4,0,0,0,1,0},
+			{0,0,0,0,6,0,5,2,3},
+			{1,0,2,0,0,9,0,8,0}
+			};
+	int game2[9][9] = {{6,2,9,1,7,8,4,3,5},
+					   {8,4,5,3,6,2,7,9,1},
+					   {1,3,7,0,9,4,8,0,6},
+					   {2,7,8,6,4,3,5,1,9},
+					   {3,9,1,2,8,5,6,7,4},
+					   {4,5,6,7,1,9,2,8,3},
+					   {9,6,3,8,5,7,1,4,2},
+					   {5,8,4,9,2,1,3,6,7},
+					   {7,1,2,4,3,6,9,5,8}};
+	*/
+	printf("Please type in the sudoku you want to solve line by line (0 for blank):\n\n");
+	while(countline < 10){
+		scanf("%s",line);
+		for(i=0;i<9;i++){
+			game[countline-1][i] = line[i]-'0';
+		}
+		countline++;
+	}
+	for(a=0;a<9;a++){
+		for(b=0;b<9;b++){
+			printf("%d",game[a][b]);
+		}
+		printf("\n");
+	}
+	system("cls");
+	printf("Solving\n");
+	t = clock();
+	solveSudoku(game);
 	return 0;
 }
