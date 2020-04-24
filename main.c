@@ -5,7 +5,6 @@
 #include <dos.h>
 #include <dir.h>
 int tries;
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 void printSudoku(int game[9][9]){
 	system("cls");
@@ -196,12 +195,49 @@ void setupWindow(){
 	keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
 }
 
+void printInput(int game[9][9],int a,int b){
+	system("cls");
+	int i,j;
+	for(i=0;i<9;i++){
+		for(j=0;j<9;j++){
+			if(i==a && j==b) printf("X ");
+			else if(game[i][j]==-1) printf("  ");
+			else if(game[i][j]==0) printf("  ");
+			else if(i<a) printf("%d ",game[i][j]);
+			else if(i==a && j<=b) printf("%d ",game[i][j]);
+			if(j==2) printf("  ");
+			else if(j==5) printf("  ");
+			else if(j==8) printf("\n");
+			if(i==2 && j==8) printf("\n");
+			else if(i==5 && j==8) printf("\n");
+		}
+	}
+}
+
+void getInput(int game[9][9]){
+	int countline = 1,i,j,k;
+	char line[9];
+	for(j=0;j<9;j++){
+		for(k=0;k<9;k++){
+			*(*(game+i)+j) = -1;
+		}
+	}
+	system("cls");
+	printf("\n\t\tPlease type in the sudoku you want to solve line by line (0 for blank):\n\n");
+	while(countline < 10){
+		for(i=0;i<9;i++){
+			printInput(game,countline-1,i);
+			char c = getch();
+			*(*(game+countline-1)+i) = c - '0';
+		}
+		countline++;
+	}
+}
+
 int main(void) {
 	setupWindow();
 	clock_t t;
-	char line[9];
-	int countline,i,a,b;
-	countline = 1;
+	int game[9][9];
 	/*
 	int game[9][9] = {{0,6,0,3,0,0,8,0,4},
 			{5,3,7,0,9,0,0,0,0},
@@ -225,29 +261,14 @@ int main(void) {
 					   {7,1,2,4,3,6,9,5,8}};
 	printWelcome();
 	getch();
-	/*
-	printf("Please type in the sudoku you want to solve line by line (0 for blank):\n\n");
-	while(countline < 10){
-		scanf("%s",line);
-		for(i=0;i<9;i++){
-			game[countline-1][i] = line[i]-'0';
-		}
-		countline++;
-	}
-	for(a=0;a<9;a++){
-		for(b=0;b<9;b++){
-			printf("%d",game[a][b]);
-		}
-		printf("\n");
-	}
-	*/
+	getInput(game);
 	system("cls");
 	printf("Solving\n");
 	t = clock();
-	solveSudoku(game2);
+	solveSudoku(game);
 	t = clock() - t;
 	double taken = ((double)t)/CLOCKS_PER_SEC;
-	printSudoku(game2);
+	printSudoku(game);
 	printf("\n\n\t%f segundos\n",taken);
 	getch();
 	return 0;
