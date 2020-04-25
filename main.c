@@ -54,7 +54,6 @@ void solveSudoku(int game[9][9]){
 				while(guess <= 9){
 					tries++;
 					if(isValid(game,i,j,guess)){
-						//printSudoku(game);
 						*(*(game+i)+j) = guess;
 						solveSudoku(game);
 						if(isSolved(game)) return;
@@ -231,6 +230,25 @@ void getInput(int game[9][9]){
 			*(*(game+countline-1)+i) = c - '0';
 		}
 		countline++;
+	}
+}
+
+void menu(int game[9][9]){
+	int input;
+	printf("\n\n\t\tPlease select:\n");
+	printf("\n\t\t\t1 - Manual input\n");
+	printf("\t\t\t2 - File input\n");
+	printf("\t\t\t3 - Exit\n");
+	scanf("%d",&input);
+	if(input == 1){
+		getInput(game);
+	} else if(input == 2){
+		//getFileInput(game);
+	} else{
+		system("cls");
+		printf("\n\n\t\tThank you for using SudokuSolver.\n");
+		printf("\t\tWritten in C by Pedro Gaya\n");
+		printf("\t\tgithub: gayapedro\n");
 	}
 }
 
