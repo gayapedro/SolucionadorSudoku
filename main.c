@@ -4,11 +4,9 @@
 #include <windows.h>
 #include <dos.h>
 #include <dir.h>
-int tries;
 
 void printSudoku(int game[9][9]){
 	system("cls");
-	printf("\tTry %d\n\n\n",tries);
 	int i,j;
 	for(i=0;i<9;i++){
 		printf("\t\t");
@@ -44,15 +42,12 @@ int isSolved(int game[9][9]){
 }
 
 void solveSudoku(int game[9][9]){
-	
 	int i,j,guess;
 	for(i=0;i<9;i++){
 		for(j=0;j<9;j++){
-			
 			if(game[i][j] == 0){
 				guess = 1;
 				while(guess <= 9){
-					tries++;
 					if(isValid(game,i,j,guess)){
 						*(*(game+i)+j) = guess;
 						solveSudoku(game);
@@ -255,6 +250,7 @@ void menu(int game[9][9]){
 int main(void) {
 	setupWindow();
 	clock_t t;
+	int tries = 0;
 	int game[9][9];
 	/*
 	int game[9][9] = {{0,6,0,3,0,0,8,0,4},
