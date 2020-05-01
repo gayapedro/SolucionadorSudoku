@@ -210,7 +210,7 @@ void printInput(int game[9][9],int a,int b){
 
 void getInput(int game[9][9]){
 	int countline = 1,i,j,k;
-	char line[9];
+	//char line[9];
 	for(j=0;j<9;j++){
 		for(k=0;k<9;k++){
 			*(*(game+i)+j) = -1;
@@ -228,6 +228,31 @@ void getInput(int game[9][9]){
 	}
 }
 
+void getFileInput(int game[9][9]){
+	int i,countline;
+	char line[9];
+	char inputname[100];
+	system("cls");
+	printf("\t\t\t\n\nPlease type in the desired input file name (excluding .txt):\n");
+	scanf("%s",inputname);
+	strcat(inputname,".txt");
+	FILE *inputfile = fopen(inputname,"r");
+	if(inputfile == NULL){
+		printf("\n\n\t\t\tError. The file could not be open.\n");
+	}else{
+		countline = 0;
+		while(fscanf(inputfile,"%s",line) == 1){
+			for(i=0;i<9;i++){
+				*(*(game+countline)+i) = line[i] - '0';
+			}
+			countline++;
+		}
+		printSudoku(game);
+		getch();
+	}
+	
+}
+
 void menu(int game[9][9]){
 	int input;
 	printf("\n\n\t\tPlease select:\n");
@@ -238,7 +263,7 @@ void menu(int game[9][9]){
 	if(input == 1){
 		getInput(game);
 	} else if(input == 2){
-		//getFileInput(game);
+		getFileInput(game);
 	} else{
 		system("cls");
 		printf("\n\n\t\tThank you for using SudokuSolver.\n");
@@ -275,7 +300,7 @@ int main(void) {
 					   {7,1,2,4,3,6,9,5,8}};
 	printWelcome();
 	getch();
-	getInput(game);
+	menu(game);
 	system("cls");
 	printf("Solving\n");
 	t = clock();
