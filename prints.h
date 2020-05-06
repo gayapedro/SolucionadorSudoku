@@ -1,3 +1,6 @@
+#ifndef _PRINTS_
+#define _PRINTS_
+
 void printSudoku(int game[9][9]){
 	system("cls");
 	int i,j;
@@ -33,3 +36,5 @@ void printInput(int game[9][9],int a,int b){
 		}
 	}
 }
+
+#endif

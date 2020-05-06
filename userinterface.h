@@ -1,3 +1,6 @@
+#ifndef _INTERFACE_
+#define _INTERFACE_
+
 #include <stdlib.h>
 
 void printWelcome(){
@@ -76,3 +79,16 @@ void menu(int game[9][9]){
 		exit(1);
 	}
 }
+
+void printFiles(){
+	struct dirent *arquivo;
+    DIR *dr = opendir("."); 
+    while ((arquivo = readdir(dr)) != NULL){
+    		if(arquivo->d_name[arquivo->d_namlen-1]=='t' && arquivo->d_name[arquivo->d_namlen-2]=='x' && arquivo->d_name[arquivo->d_namlen-3]=='t' && arquivo->d_name[arquivo->d_namlen-4]=='.'){
+    			printf("%s\n",arquivo->d_name);
+			}
+    }
+    closedir(dr);
+}
+
+#endif

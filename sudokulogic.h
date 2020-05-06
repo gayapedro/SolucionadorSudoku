@@ -1,3 +1,6 @@
+#ifndef _LOGIC_
+#define _LOGIC_
+
 int isSolved(int game[9][9]){
 	int i,j,sum;
 	for(i=0;i<9;i++){
@@ -111,3 +114,5 @@ int isValid(int game[9][9],int i,int j,int value){
 	if(isValidBlock(game,i,j,value) == 0) return 0;
 	return 1;
 }
+
+#endif

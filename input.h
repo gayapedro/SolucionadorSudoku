@@ -1,3 +1,6 @@
+#ifndef _INPUT_
+#define _INPUT_
+
 #include <string.h>
 #include "prints.h"
 
@@ -46,3 +49,5 @@ void getFileInput(int game[9][9]){
 	}
 	
 }
+
+#endif
