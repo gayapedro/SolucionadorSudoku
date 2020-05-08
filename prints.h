@@ -37,4 +37,15 @@ void printInput(int game[9][9],int a,int b){
 	}
 }
 
+void printFiles(){
+	struct dirent *arquivo;
+    DIR *dr = opendir("."); 
+    while ((arquivo = readdir(dr)) != NULL){
+    		if(arquivo->d_name[arquivo->d_namlen-1]=='t' && arquivo->d_name[arquivo->d_namlen-2]=='x' && arquivo->d_name[arquivo->d_namlen-3]=='t' && arquivo->d_name[arquivo->d_namlen-4]=='.'){
+    			printf("\t\t\t\t%s\n",arquivo->d_name);
+			}
+    }
+    closedir(dr);
+}
+
 #endif

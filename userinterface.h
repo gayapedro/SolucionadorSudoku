@@ -62,15 +62,12 @@ void menu(int game[9][9]){
 	printf("\n\t\t\t1 - Manual input\n");
 	printf("\t\t\t2 - File input\n");
 	printf("\t\t\t3 - Exit\n");
+	printf("\t\t\t");
 	scanf("%d",&input);
 	if(input == 1){
 		getInput(game);
 	} else if(input == 2){
-		printf("chegou aqui\n");
-		getch();
 		getFileInput(game);
-		printf("aqui 2\n");
-		getch();
 	} else{
 		system("cls");
 		printf("\n\n\t\tThank you for using SudokuSolver.\n");
@@ -78,17 +75,6 @@ void menu(int game[9][9]){
 		printf("\t\tgithub: gayapedro\n");
 		exit(1);
 	}
-}
-
-void printFiles(){
-	struct dirent *arquivo;
-    DIR *dr = opendir("."); 
-    while ((arquivo = readdir(dr)) != NULL){
-    		if(arquivo->d_name[arquivo->d_namlen-1]=='t' && arquivo->d_name[arquivo->d_namlen-2]=='x' && arquivo->d_name[arquivo->d_namlen-3]=='t' && arquivo->d_name[arquivo->d_namlen-4]=='.'){
-    			printf("%s\n",arquivo->d_name);
-			}
-    }
-    closedir(dr);
 }
 
 #endif

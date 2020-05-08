@@ -5,14 +5,14 @@
 #include <dir.h>
 #include <dirent.h>
 #include "input.h"
-#include "prints.h"
 #include "userinterface.h"
+#include "prints.h"
 #include "sudokulogic.h"
 
 
 
 int main(void) {
-	/*
+	
 	setupWindow();
 	printWelcome();
 	int game[9][9];
@@ -22,8 +22,6 @@ int main(void) {
 	printf("Solving\n");
 	solveSudoku(game);
 	printSudoku(game);
-	getch();
-	*/
-	printFiles();
+	
 	return 0;
 }

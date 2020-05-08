@@ -5,7 +5,6 @@
 #include "prints.h"
 
 void getInput(int game[9][9]){
-	printf("e aqui?\n");
 	getch();
 	int countline = 1,i,j,k;
 	for(j=0;j<9;j++){
@@ -30,12 +29,15 @@ void getFileInput(int game[9][9]){
 	char line[9];
 	char inputname[100];
 	system("cls");
-	printf("\t\t\t\n\nPlease type in the desired input file name (excluding .txt):\n");
+	printf("\n\n\t\t\tPlease type in the desired input file name (excluding .txt).\n");
+	printf("\t\t\tAvaliable files:\n\n");
+	printFiles();
+	printf("\t\t\t");
 	scanf("%s",inputname);
 	strcat(inputname,".txt");
 	FILE *inputfile = fopen(inputname,"r");
 	if(inputfile == NULL){
-		printf("\n\n\t\t\tError. The file could not be open.\n");
+		printf("\t\t\t\nError. The file could not be open.\n");
 	}else{
 		countline = 0;
 		while(fscanf(inputfile,"%s",line) == 1){
